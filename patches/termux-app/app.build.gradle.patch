@@ -29,11 +29,11 @@ index 89b9954..e329b06 100644
 -        setupBootstrap("arm", "fc72279c480c1eea46b6f0fcf78dc57599116c16dcf3b2b970a9ef828f0ec30b", version)
 -        setupBootstrap("i686", "895680fc967aecfa4ed77b9dc03aab95d86345be69df48402c63bfc0178337f6", version)
 -        setupBootstrap("x86_64", "8714ab8a5ff4e1f5f3ec01e7d0294776bfcffb187c84fa95270ec67ede8f682e", version)
-+        def version = "2024.06.07-r1"
-+        setupBootstrap("aarch64", "d6e4ccfee6387eb4544db617a4d8103bf599d39290c3f08688294d65ae78f1", version)
-+        setupBootstrap("arm", "9304a13d8ecfeadb3b7dbd8b718d4f7b5ba9172d980f7a134109d7a1b2f4a38c", version)
-+        setupBootstrap("i686", "8e3248a73d335255303ddf257081ad6577d8f1ac3154a092879b7ff342c1d3b3", version)
-+        setupBootstrap("x86_64", "9ec70d20bdd9dd69aaf8c65a699b3746f7f1036796ffd7cd8a0c142b7a548f6f", version)
++        def version = "2024.06.07-r2"
++        setupBootstrap("aarch64", "79d90dbd8b47bb71e7278735667461ae6ba2613a854d17649c6f0634fc4a3cda", version)
++        setupBootstrap("arm", "f7524ccacc2c9fa8be639cdf6678528a0bc7c9c0bc31cf54f8ca565036021ce8", version)
++        setupBootstrap("i686", "3d56e72c8348c9447a72995b3296094e98424da71b4d666e015f3a376de19fa6", version)
++        setupBootstrap("x86_64", "57f87abf6ae62634fa1068a0b160e870ffe30580e9b5132ee98946389040c4af", version)
      }
  }
  
