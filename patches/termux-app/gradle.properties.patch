@@ -1,0 +1,10 @@
+diff --git a/gradle.properties b/gradle.properties
+index 8a1cc57..0a1f07d 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -18,4 +18,4 @@ android.useAndroidX=true
+ minSdkVersion=24
+ targetSdkVersion=30
+ compileSdkVersion=30
+-ndkVersion=22.0.7026061
++ndkVersion=24.0.8215888
