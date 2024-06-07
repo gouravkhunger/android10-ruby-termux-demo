@@ -1,0 +1,89 @@
+# Adapted from
+# https://github.com/termux/termux-packages/blob/master/.github/workflows/bootstrap_archives.yml
+
+name: Build bootstraps
+
+on:
+  - workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      ANDROID_HOME: "/opt/termux/android-sdk"
+      NDK: "/opt/termux/android-ndk"
+
+    strategy:
+      matrix:
+        target_arch: [aarch64, arm, i686, x86_64]
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Get packages from termux-packages
+        uses: actions/checkout@v4
+        with:
+          repository: termux/termux-packages
+          path: termux-packages
+          fetch-depth: 1
+
+      - name: Apply patches
+        run: |
+          mv patches/termux-packages/*.patch termux-packages
+          cd termux-packages
+          git apply *.patch
+
+      - name: Create bootstrap archive
+        working-directory: ./termux-packages
+        run: |
+          ./scripts/run-docker.sh ./clean.sh
+          ./scripts/run-docker.sh ./scripts/build-bootstraps.sh --android10 --architectures ${{ matrix.target_arch }}
+
+      - name: Store bootstrap
+        uses: actions/upload-artifact@v4
+        with:
+          name: bootstrap-${{ matrix.target_arch }}
+          path: "./termux-packages/*.zip"
+
+  publish:
+    permissions:
+      contents: write # for git push
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch bootstrap archives
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+          path: ./
+      - name: Create new tag
+        id: get_tag
+        run: |
+          new_tag="bootstrap-$(date "+%Y.%m.%d")"
+          existing_tag_revision=$(git tag | grep "$new_tag" | sort -r | head -n 1 | cut -d- -f3 | cut -dr -f2)
+          if [ -n "$existing_tag_revision" ]; then
+            tag_rev=$((existing_tag_revision + 1))
+          else
+            tag_rev=1
+          fi
+          new_tag="${new_tag}-r${tag_rev}"
+          git tag "$new_tag"
+          git push --tags
+          echo "tag_name=$new_tag" >> $GITHUB_OUTPUT
+      - name: Publish bootstrap zips to GitHub release
+        uses: termux/upload-release-action@v4.1.0
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: "*.zip"
+          file_glob: true
+          release_name: "Bootstrap archives for Termux application"
+          tag: ${{ steps.get_tag.outputs.tag_name }}
+          checksums: sha256,sha512,md5
