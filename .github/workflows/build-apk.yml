@@ -1,0 +1,47 @@
+# Adapted from
+# https://github.com/termux/termux-app/blob/android-10/.github/workflows/debug_build.yml
+
+name: Build APK
+
+on:
+  - workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Get source from termux-app
+        uses: actions/checkout@v4
+        with:
+          repository: termux/termux-app
+          ref: 'android-10'
+          path: termux-app
+          fetch-depth: 1
+
+      - name: Apply patches
+        run: |
+          mv patches/termux-app/*.patch termux-app
+          cd termux-app
+          git apply *.patch
+
+      - name: Build
+        working-directory: ./termux-app
+        run: |
+          ./gradlew assembleDebug
+
+      - name: Store generated APK file
+        uses: actions/upload-artifact@v1
+        with:
+          name: termux-app
+          path: ./termux-app/app/build/outputs/apk/debug/app-debug.apk

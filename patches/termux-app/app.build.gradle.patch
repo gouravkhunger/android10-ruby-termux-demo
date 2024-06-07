@@ -1,0 +1,30 @@
+diff --git a/app/build.gradle b/app/build.gradle
+index 89b9954..c027efc 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -102,7 +102,7 @@ def setupBootstrap(String arch, String expectedChecksum, int version) {
+     }
+ 
+     if (!zipDownloadFile.exists()) {
+-        def remoteUrl = "https://bintray.com/termux/bootstrap/download_file?file_path=android10-v" + version + "-bootstrap-" + arch + ".zip"
++        def remoteUrl = "https://github.com/gouravkhunger/android10-ruby-termux-demo/releases/download/bootstrap-" + version + "/bootstrap-" + arch + ".zip"
+         logger.quiet("Downloading " + remoteUrl + " ...")
+ 
+         zipDownloadFile.parentFile.mkdirs()
+@@ -179,11 +179,11 @@ def setupBootstrap(String arch, String expectedChecksum, int version) {
+ 
+ task setupBootstraps() {
+     doLast {
+-        def version = 12
+-        setupBootstrap("aarch64", "5e07239cad78050f56a28f9f88a0b485cead45864c6c00e1a654c728152b0244", version)
+-        setupBootstrap("arm", "fc72279c480c1eea46b6f0fcf78dc57599116c16dcf3b2b970a9ef828f0ec30b", version)
+-        setupBootstrap("i686", "895680fc967aecfa4ed77b9dc03aab95d86345be69df48402c63bfc0178337f6", version)
+-        setupBootstrap("x86_64", "8714ab8a5ff4e1f5f3ec01e7d0294776bfcffb187c84fa95270ec67ede8f682e", version)
++        def version = "2024.06.07-r1"
++        setupBootstrap("aarch64", "00d6e4ccfee6387eb4544db617a4d8103bf599d39290c3f08688294d65ae78f1", version)
++        setupBootstrap("arm", "9304a13d8ecfeadb3b7dbd8b718d4f7b5ba9172d980f7a134109d7a1b2f4a38c", version)
++        setupBootstrap("i686", "8e3248a73d335255303ddf257081ad6577d8f1ac3154a092879b7ff342c1d3b3", version)
++        setupBootstrap("x86_64", "9ec70d20bdd9dd69aaf8c65a699b3746f7f1036796ffd7cd8a0c142b7a548f6f", version)
+     }
+ }
+ 
