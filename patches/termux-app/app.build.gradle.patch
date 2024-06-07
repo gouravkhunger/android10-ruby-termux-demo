@@ -1,7 +1,16 @@
 diff --git a/app/build.gradle b/app/build.gradle
-index 89b9954..c027efc 100644
+index 89b9954..e329b06 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
+@@ -81,7 +81,7 @@ task versionName {
+     }
+ }
+ 
+-def setupBootstrap(String arch, String expectedChecksum, int version) {
++def setupBootstrap(String arch, String expectedChecksum, String version) {
+     def digest = java.security.MessageDigest.getInstance("SHA-256")
+ 
+     def zipDownloadFile = new File(project.buildDir, "./gradle/bootstrap-" + arch + "-" + version + ".zip")
 @@ -102,7 +102,7 @@ def setupBootstrap(String arch, String expectedChecksum, int version) {
      }
  
