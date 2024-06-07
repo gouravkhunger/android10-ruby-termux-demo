@@ -33,9 +33,9 @@ jobs:
 
       - name: Apply patches
         run: |
-          mv patches/termux-packages/*.patch termux-packages
-          cd termux-packages
-          git apply *.patch
+          for patch in patches/termux-packages/*; do
+            cp -r $patch termux-packages;
+          done
 
       - name: Create bootstrap archive
         working-directory: ./termux-packages
